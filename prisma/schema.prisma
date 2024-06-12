@@ -12,3 +12,48 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model HistoryTryout {
+  id        String   @id @default(uuid())
+  tryoutId  String
+  userId    String
+  score     Int
+  organizer String
+  platform  String
+  status  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model User {
+  id            String          @id @default(uuid())
+  name          String
+  email         String          @unique
+  password      String
+  role          String
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  historyTryout HistoryTryout[]
+}
+
+model Tryout {
+  id        String     @id @default(uuid())
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  question  Question[]
+}
+
+model Question {
+  id           String   @id @default(uuid())
+  tryoutId     String
+  questionText String
+  answer       String
+  optionA      String
+  optionB      String
+  optionC      String
+  optionD      String
+  tryout       Tryout   @relation(fields: [tryoutId], references: [id])
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
