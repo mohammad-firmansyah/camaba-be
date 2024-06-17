@@ -1,26 +1,105 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateTryoutDto } from './dto/create-tryout.dto';
 import { UpdateTryoutDto } from './dto/update-tryout.dto';
+import { PrismaService } from 'src/prisma.service';
+import { uuidv7 } from 'uuidv7';
 
 @Injectable()
 export class TryoutService {
-  create(createTryoutDto: CreateTryoutDto) {
-    return 'This action adds a new tryout';
+  constructor(private prismaService: PrismaService) {}
+
+  async create(createTryoutDto: CreateTryoutDto) {
+    const result = await this.prismaService.tryout.create({
+      data: {
+        id: uuidv7(),
+        ...createTryoutDto,
+      },
+    });
+
+    if (!result) {
+      return new InternalServerErrorException({
+        is_error: true,
+        message: 'Failed to create tryout',
+        data: {},
+      });
+    }
+    return {
+      is_error: false,
+      message: 'Tryout created successfully',
+      data: result,
+    };
   }
 
   findAll() {
-    return `This action returns all tryout`;
+    const result = this.prismaService.tryout.findMany();
+
+    return {
+      is_error: false,
+      message: 'All Tryout data',
+      data: result,
+    };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} tryout`;
+  findOne(id: string) {
+    const result = this.prismaService.tryout.findUnique({
+      where: {
+        id: id,
+      },
+    });
+
+    if (!result) {
+      return new NotFoundException({
+        is_error: true,
+        message: 'Tryout not found',
+        data: {},
+      });
+    }
+
+    return {
+      is_error: false,
+      message: 'Tryout data',
+      data: result,
+    };
   }
 
-  update(id: number, updateTryoutDto: UpdateTryoutDto) {
-    return `This action updates a #${id} tryout`;
+  update(id: string, updateTryoutDto: UpdateTryoutDto) {
+    const result = this.prismaService.tryout.update({
+      where: {
+        id: id,
+      },
+      data: updateTryoutDto,
+    });
+
+    if (!result) {
+      return new NotFoundException({
+        is_error: true,
+        message: 'Tryout not found',
+        data: {},
+      });
+    }
+
+    return {
+      is_error: false,
+      message: 'Tryout updated successfully',
+      data: result,
+    };
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} tryout`;
+  remove(id: string) {
+    const result = this.prismaService.tryout.delete({
+      where: {
+        id: id,
+      },
+    });
+
+    return {
+      is_error: false,
+      message: 'Tryout deleted successfully',
+      data: result,
+    };
   }
 }

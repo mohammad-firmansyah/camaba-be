@@ -21,16 +21,16 @@ export class TryoutController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.tryoutService.findOne(+id);
+    return this.tryoutService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateTryoutDto: UpdateTryoutDto) {
-    return this.tryoutService.update(+id, updateTryoutDto);
+    return this.tryoutService.update(id, updateTryoutDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.tryoutService.remove(+id);
+    return this.tryoutService.remove(id);
   }
 }
