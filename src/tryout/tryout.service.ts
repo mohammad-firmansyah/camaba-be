@@ -44,8 +44,8 @@ export class TryoutService {
     };
   }
 
-  findOne(id: string) {
-    const result = this.prismaService.tryout.findUnique({
+  async findOne(id: string) {
+    const result = await this.prismaService.tryout.findUnique({
       where: {
         id: id,
       },
@@ -66,8 +66,8 @@ export class TryoutService {
     };
   }
 
-  update(id: string, updateTryoutDto: UpdateTryoutDto) {
-    const result = this.prismaService.tryout.update({
+  async update(id: string, updateTryoutDto: UpdateTryoutDto) {
+    const result = await this.prismaService.tryout.update({
       where: {
         id: id,
       },
