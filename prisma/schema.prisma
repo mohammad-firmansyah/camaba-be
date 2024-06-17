@@ -18,9 +18,6 @@ model HistoryTryout {
   tryoutId  String
   userId    String
   score     Int
-  organizer String
-  platform  String
-  status  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   user      User     @relation(fields: [userId], references: [id])
@@ -39,6 +36,10 @@ model User {
 
 model Tryout {
   id        String     @id @default(uuid())
+  organizer String
+  platform  String
+  status  String
+  startDate DateTime
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
   question  Question[]
