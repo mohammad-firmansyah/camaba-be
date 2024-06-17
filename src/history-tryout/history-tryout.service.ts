@@ -1,26 +1,113 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateHistoryTryoutDto } from './dto/create-history-tryout.dto';
 import { UpdateHistoryTryoutDto } from './dto/update-history-tryout.dto';
+import { PrismaService } from 'src/prisma.service';
+import { uuidv7 } from 'uuidv7';
 
 @Injectable()
 export class HistoryTryoutService {
-  create(createHistoryTryoutDto: CreateHistoryTryoutDto) {
-    return 'This action adds a new historyTryout';
+  constructor(private prismaService: PrismaService) {}
+
+  async create(createHistoryTryoutDto: CreateHistoryTryoutDto) {
+    const result = await this.prismaService.historyTryout.create({
+      data: {
+        id: uuidv7(),
+        ...createHistoryTryoutDto,
+      },
+    });
+
+    if (!result) {
+      return new InternalServerErrorException({
+        is_error: true,
+        message: 'Failed to create historyTryout',
+        data: {},
+      });
+    }
+
+    return {
+      is_error: false,
+      message: 'HistoryTryout created successfully',
+      data: result,
+    };
   }
 
-  findAll() {
-    return `This action returns all historyTryout`;
+  async findAll() {
+    const result = await this.prismaService.historyTryout.findMany();
+    return {
+      is_error: false,
+      message: 'HistoryTryouts fetched successfully',
+      data: result,
+    };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} historyTryout`;
+  async findOne(id: string) {
+    const result = await this.prismaService.historyTryout.findUnique({
+      where: {
+        id: id,
+      },
+    });
+
+    if (!result) {
+      return new NotFoundException({
+        is_error: true,
+        message: 'HistoryTryout not found',
+        data: {},
+      });
+    }
+
+    return {
+      is_error: false,
+      message: 'HistoryTryout fetched successfully',
+      data: result,
+    };
   }
 
-  update(id: number, updateHistoryTryoutDto: UpdateHistoryTryoutDto) {
-    return `This action updates a #${id} historyTryout`;
+  update(id: string, updateHistoryTryoutDto: UpdateHistoryTryoutDto) {
+    const result = this.prismaService.historyTryout.update({
+      where: {
+        id: id,
+      },
+      data: updateHistoryTryoutDto,
+    });
+
+    if (!result) {
+      return new NotFoundException({
+        is_error: true,
+        message: 'HistoryTryout not found',
+        data: {},
+      });
+    }
+
+    return {
+      is_error: false,
+      message: 'HistoryTryout updated successfully',
+      data: result,
+    };
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} historyTryout`;
+  remove(id: string) {
+    const result = this.prismaService.historyTryout.delete({
+      where: {
+        id: id,
+      },
+    });
+
+    if (!result) {
+      return new NotFoundException({
+        is_error: true,
+        message: 'HistoryTryout not found',
+        data: {},
+      });
+    }
+
+    return {
+      is_error: false,
+      message: 'HistoryTryout deleted successfully',
+      data: result,
+    };
   }
 }

@@ -21,16 +21,16 @@ export class HistoryTryoutController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.historyTryoutService.findOne(+id);
+    return this.historyTryoutService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateHistoryTryoutDto: UpdateHistoryTryoutDto) {
-    return this.historyTryoutService.update(+id, updateHistoryTryoutDto);
+    return this.historyTryoutService.update(id, updateHistoryTryoutDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.historyTryoutService.remove(+id);
+    return this.historyTryoutService.remove(id);
   }
 }
