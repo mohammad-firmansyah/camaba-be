@@ -8,7 +8,6 @@ async function bootstrap() {
     .setTitle('Camaba-be')
     .setDescription('The CAMABA API description')
     .setVersion('1.0')
-    .addTag('camaba')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);

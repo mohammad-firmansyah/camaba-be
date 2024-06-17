@@ -2,8 +2,10 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { TryoutService } from './tryout.service';
 import { CreateTryoutDto } from './dto/create-tryout.dto';
 import { UpdateTryoutDto } from './dto/update-tryout.dto';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('tryout')
+@ApiTags('Tryout')
 export class TryoutController {
   constructor(private readonly tryoutService: TryoutService) {}
 

@@ -2,8 +2,10 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { HistoryTryoutService } from './history-tryout.service';
 import { CreateHistoryTryoutDto } from './dto/create-history-tryout.dto';
 import { UpdateHistoryTryoutDto } from './dto/update-history-tryout.dto';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('history-tryout')
+@ApiTags('HistoryTryout')
 export class HistoryTryoutController {
   constructor(private readonly historyTryoutService: HistoryTryoutService) {}
 

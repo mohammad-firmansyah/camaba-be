@@ -3,8 +3,10 @@ import { AuthService } from './auth.service';
 import { SignInDto } from './dto/signin.dto';
 import { SignUpDto } from './dto/signup.dto';
 import { verifyDto } from './dto/verify.dto';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('auth')
+@ApiTags('Auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
