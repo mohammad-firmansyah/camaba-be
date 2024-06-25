@@ -1,11 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { HistoryTryoutService } from './history-tryout.service';
 import { CreateHistoryTryoutDto } from './dto/create-history-tryout.dto';
 import { UpdateHistoryTryoutDto } from './dto/update-history-tryout.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('history-tryout')
 @ApiTags('HistoryTryout')
+@ApiBearerAuth()
+@UseGuards(AuthGuard)
 export class HistoryTryoutController {
   constructor(private readonly historyTryoutService: HistoryTryoutService) {}
 

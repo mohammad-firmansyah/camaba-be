@@ -29,6 +29,11 @@ model User {
   email         String          @unique
   password      String
   role          String
+  gender        String        @default("L")
+  originSchool  String        @default("")
+  unScore       Float         @default(0)
+  meanRaportScoreHighSchool Float @default(0)
+  utbkDate      DateTime        @default(now()) 
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
   historyTryout HistoryTryout[]

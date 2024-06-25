@@ -6,6 +6,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const config = new DocumentBuilder()
     .setTitle('Camaba-be')
+    .addBearerAuth({ in: 'header', type: 'apiKey', name: 'authorization' })
     .setDescription('The CAMABA API description')
     .setVersion('1.0')
     .build();

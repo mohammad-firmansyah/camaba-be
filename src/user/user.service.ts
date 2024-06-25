@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'src/prisma.service';
@@ -31,4 +31,45 @@ export class UserService {
       },
     });
   }
+
+  async createUserEnpoint(createUserDto : CreateUserDto) {
+    const result = await this.prisma.user.create({
+     data: {
+       role : 'USER',
+       ...createUserDto 
+     },
+   });
+
+   if (!result){
+     throw new UnauthorizedException({
+       is_error: true,
+       message: 'Invalid credentials',
+       data: {},
+     });
+   }
+
+   return {
+     is_error: false,
+     message: 'user created succesfully',
+     data: result,
+   };
+ }
+  
+ async showProfile(id : string) {
+    const result = this.prisma.user.findFirst({where:{id:id}})
+
+   if (!result){
+     throw new UnauthorizedException({
+       is_error: true,
+       message: 'No user found',
+       data: {},
+     });
+   }
+
+   return {
+     is_error: false,
+     message: 'profile user',
+     data: result,
+   };
+ }
 }
