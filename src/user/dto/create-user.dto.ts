@@ -1,30 +1,40 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsString, IsOptional } from 'class-validator';
+
 
 export class CreateUserDto {
 
     @ApiProperty()
-    name : string
-
+    @IsOptional()
+    name? : string
+    
     @ApiProperty()
-    email : string
-      
+    @IsOptional()
+    email? : string
+    
     @ApiProperty()
-    password : string
-      
+    @IsOptional()
+    password? : string
+    
     @ApiProperty()
-    gender : string
-  
+    @IsOptional()
+    gender? : string
+    
     @ApiProperty()
-    originSchool : string
-  
+    @IsOptional()
+    originSchool? : string
+    
     @ApiProperty()
-    unScore : number
-
+    @IsOptional()
+    unScore? : number
+    
     @ApiProperty()
-    meanRaportScoreHighSchool : number
-      
+    @IsOptional()
+    meanRaportScoreHighSchool? : number
+    
     @ApiProperty()
-    utbkDate : string
+    @IsOptional()
+    utbkDate? : string
 
       
 }

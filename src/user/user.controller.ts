@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req } from '@nestjs/common';
 import { UserService } from './user.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -11,13 +11,13 @@ import { AuthGuard } from 'src/auth/auth.guard';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post()
-  createUser(@Body() body : CreateUserDto) {
-    return this.userService.createUserEnpoint(body);
+  @Patch(':id/update')
+  updateProfile(@Param('id') id : string,@Body() body : CreateUserDto) {
+    return this.userService.updateProfile(id, body);
   }
  
-  @Get()
-  showProfile(@Param() id : string) {
+  @Get(':id')
+  showProfile(@Param('id') id : string) {
     return this.userService.showProfile(id);
   }
 }

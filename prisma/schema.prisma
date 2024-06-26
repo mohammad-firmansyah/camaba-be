@@ -26,7 +26,7 @@ model HistoryTryout {
 model User {
   id            String          @id @default(uuid())
   name          String
-  email         String          @unique
+  email         String          
   password      String
   role          String
   gender        String        @default("L")

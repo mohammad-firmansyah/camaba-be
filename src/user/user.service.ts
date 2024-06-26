@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'src/prisma.service';
@@ -32,32 +32,34 @@ export class UserService {
     });
   }
 
-  async createUserEnpoint(createUserDto : CreateUserDto) {
-    const result = await this.prisma.user.create({
-     data: {
-       role : 'USER',
-       ...createUserDto 
-     },
-   });
+  async updateProfile(idUser : string, updateUserDto : UpdateUserDto) {
+    
+    const result = await this.prisma.user.update({
+      where : {id: idUser},
+      data:{
+        ...updateUserDto
+      }
+    })
+
+    
 
    if (!result){
-     throw new UnauthorizedException({
+     throw new BadRequestException({
        is_error: true,
-       message: 'Invalid credentials',
+       message: 'Invalid input user',
        data: {},
      });
    }
 
    return {
      is_error: false,
-     message: 'user created succesfully',
+     message: 'user profile updated succesfully',
      data: result,
    };
  }
   
- async showProfile(id : string) {
-    const result = this.prisma.user.findFirst({where:{id:id}})
-
+ async showProfile(idUser : string) {
+    const result = await this.prisma.user.findFirst({where:{id:idUser}})
    if (!result){
      throw new UnauthorizedException({
        is_error: true,
